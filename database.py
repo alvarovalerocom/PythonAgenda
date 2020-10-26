@@ -44,9 +44,13 @@ class Database():
     def getDatabase(self):
         connection = sqlite3.connect("agenda.db")
         cursor = connection.cursor()
-        for row in cursor.execute('SELECT * FROM contacts ORDER BY id_number'):
-            print(row)
+        #for row in cursor.execute('SELECT * FROM contacts ORDER BY id_number'):
+        #    print(row)
+        cursor.execute('SELECT * FROM contacts ORDER BY name')
+        records = cursor.fetchall()
+        return records
         connection.close()
+        
 
     def addRecordInDatabase(self,name,surname,phone,address,email,notes):
         connection = sqlite3.connect("agenda.db")
@@ -58,7 +62,12 @@ class Database():
         connection.commit()
         connection.close()
 
+    def deleteRecordInDatabase(self,id_number):
+        connection = sqlite3.connect("agenda.db")
+        cursor = connection.cursor()
         
-    def updateDatabase():
-        pass
+        data_tuple = (id_number)
+        delete_string = """DELETE FROM contacts WHERE id_number=?"""
+        print("successfully deleted %s" % (id_number)) 
+
 

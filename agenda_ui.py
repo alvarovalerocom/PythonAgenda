@@ -11,6 +11,7 @@ from database import Database
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QComboBox
 
 
 class Ui_MainWindow(object):
@@ -85,6 +86,9 @@ class Ui_MainWindow(object):
         self.saveNotesButton = QtWidgets.QPushButton(self.centralwidget)
         self.saveNotesButton.setGeometry(QtCore.QRect(910, 650, 80, 23))
         self.saveNotesButton.setObjectName("saveNotesButton")
+        self.comboBox = QtWidgets.QComboBox(self.centralwidget)
+        self.comboBox.setGeometry(100,120,421,25)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1024, 20))
@@ -97,7 +101,7 @@ class Ui_MainWindow(object):
         ###me###
         self.saveButton.clicked.connect(self.saveButtonClicked)
         
-
+               
         ########
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -117,10 +121,18 @@ class Ui_MainWindow(object):
         self.saveNotesButton.setText(_translate("MainWindow", "Save notes"))
 
     def saveButtonClicked(self):
-        print(self.nameLineEdit.text())
         db.addRecordInDatabase(self.nameLineEdit.text(),self.surnameLineEdit.text(),self.phoneLineEdit.text(),self.addressLineEdit.text(),self.emailLineEdit.text(),self.textEdit.toPlainText())
+        db.randomizeNumber()
+   
+    def updateComboBox(self):
+        records = db.getDatabase()
+        for row in records:
+            self.comboBox.addItem(row[1])
+
+    updateComboBox        
 
 if __name__ == "__main__":
+
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
@@ -131,9 +143,5 @@ if __name__ == "__main__":
     db = Database()
     db.createDatabase()
     db.randomizeNumber()
-    
-    #para el dropdownmenu
-    db.getDatabase()
-
 
     sys.exit(app.exec_())
