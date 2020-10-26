@@ -49,9 +49,9 @@ class Ui_MainWindow(object):
         self.emailLabel = QtWidgets.QLabel(self.centralwidget)
         self.emailLabel.setGeometry(QtCore.QRect(30, 370, 57, 15))
         self.emailLabel.setObjectName("emailLabel")
-        self.adressLabel = QtWidgets.QLabel(self.centralwidget)
-        self.adressLabel.setGeometry(QtCore.QRect(30, 320, 57, 15))
-        self.adressLabel.setObjectName("adressLabel")
+        self.addressLabel = QtWidgets.QLabel(self.centralwidget)
+        self.addressLabel.setGeometry(QtCore.QRect(30, 320, 57, 15))
+        self.addressLabel.setObjectName("addressLabel")
         self.phoneLabel = QtWidgets.QLabel(self.centralwidget)
         self.phoneLabel.setGeometry(QtCore.QRect(30, 270, 57, 15))
         self.phoneLabel.setObjectName("phoneLabel")
@@ -67,9 +67,9 @@ class Ui_MainWindow(object):
         self.phoneLineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.phoneLineEdit.setGeometry(QtCore.QRect(100, 260, 421, 23))
         self.phoneLineEdit.setObjectName("phoneLineEdit")
-        self.adressLineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.adressLineEdit.setGeometry(QtCore.QRect(100, 310, 421, 23))
-        self.adressLineEdit.setObjectName("adressLineEdit")
+        self.addressLineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.addressLineEdit.setGeometry(QtCore.QRect(100, 310, 421, 23))
+        self.addressLineEdit.setObjectName("addressLineEdit")
         self.emailLineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.emailLineEdit.setGeometry(QtCore.QRect(100, 360, 421, 23))
         self.emailLineEdit.setObjectName("emailLineEdit")
@@ -110,7 +110,7 @@ class Ui_MainWindow(object):
         self.donateButton.setText(_translate("MainWindow", "Donate"))
         self.nameLabel.setText(_translate("MainWindow", "Name"))
         self.emailLabel.setText(_translate("MainWindow", "Email"))
-        self.adressLabel.setText(_translate("MainWindow", "Address"))
+        self.addressLabel.setText(_translate("MainWindow", "Address"))
         self.phoneLabel.setText(_translate("MainWindow", "Phone"))
         self.surnameLabel.setText(_translate("MainWindow", "Surname"))
         self.notesLabel.setText(_translate("MainWindow", "Notes"))
@@ -118,6 +118,7 @@ class Ui_MainWindow(object):
 
     def saveButtonClicked(self):
         print(self.nameLineEdit.text())
+        db.addRecordInDatabase(self.nameLineEdit.text(),self.surnameLineEdit.text(),self.phoneLineEdit.text(),self.addressLineEdit.text(),self.emailLineEdit.text(),self.textEdit.toPlainText())
 
 if __name__ == "__main__":
     import sys
@@ -129,6 +130,7 @@ if __name__ == "__main__":
 
     db = Database()
     db.createDatabase()
+    db.randomizeNumber()
     
     #para el dropdownmenu
     db.getDatabase()

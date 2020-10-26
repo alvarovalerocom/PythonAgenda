@@ -1,10 +1,34 @@
 import sqlite3
 from random import randint as randint
 import os.path
-random_id_number = randint(1,1000000)
 
 class Database():
     
+    random_id_number = randint(1,1000000)
+    random_id_number_tupple = (random_id_number,)
+    #random_id_number = 654721
+    #random_id_number_tupple = (654721,)
+    def randomizeNumber(self):
+        connection = sqlite3.connect("agenda.db")
+        cursor = connection.cursor()
+        
+        
+        #checking that no other contact shares the username of the contact about to be created:
+        a = cursor.execute('SELECT * FROM contacts WHERE id_number=?', (self.random_id_number_tupple))
+        rows = cursor.fetchall() 
+        if rows:
+            print("This number already exists")
+            self.random_id_number = randint(1,1000000)
+            self.random_id_number_tupple = (self.random_id_number,)
+            self.randomizeNumber()
+            print("We did something")
+            print(self.random_id_number,self.random_id_number_tupple)
+
+        else:
+            print("Random number for ID does not exist")
+            pass
+        
+
     def createDatabase(self):
         if os.path.isfile('agenda.db'):
             connection = sqlite3.connect("agenda.db")
@@ -24,11 +48,15 @@ class Database():
             print(row)
         connection.close()
 
-    def addRecordInDatabase(self,id_number,name,surname,phone,address,email,notes):
-        data_tuple = (id_number,name,surname,phone,address,email,notes)
+    def addRecordInDatabase(self,name,surname,phone,address,email,notes):
+        connection = sqlite3.connect("agenda.db")
+        cursor = connection.cursor()
+        
+        data_tuple = (self.random_id_number,name,surname,phone,address,email,notes)
         insert_string = """INSERT INTO contacts (id_number, name, surname, phone,address,email,notes) VALUES (?,?,?,?,?,?,?)"""
         cursor.execute(insert_string, data_tuple)
         connection.commit()
+        connection.close()
 
         
     def updateDatabase():
