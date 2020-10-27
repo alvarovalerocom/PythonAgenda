@@ -37,6 +37,13 @@ class Ui_MainWindow(object):
         self.deleteButton.setGeometry(QtCore.QRect(120, 660, 80, 23))
         self.deleteButton.setObjectName("deleteButton")
 
+        self.populateButton = QtWidgets.QPushButton(self.centralwidget)
+        self.populateButton.setGeometry(QtCore.QRect(50, 50, 80, 23))
+        self.populateButton.setObjectName("Populate")
+
+        self.selectButton= QtWidgets.QPushButton(self.centralwidget)
+        self.selectButton.setGeometry(QtCore.QRect(15, 120, 80, 23))
+        self.selectButton.setObjectName("Select")
 
         self.donateButton = QtWidgets.QPushButton(self.centralwidget)
         self.donateButton.setGeometry(QtCore.QRect(450, 660, 80, 23))
@@ -100,9 +107,11 @@ class Ui_MainWindow(object):
 
         ###me###
         self.saveButton.clicked.connect(self.saveButtonClicked)
-        
-               
+        self.populateButton.clicked.connect(self.populateButtonClicked)
+        self.selectButton.clicked.connect(self.selectButtonClicked)
+        self.comboBox.activated.connect(self.comboBoxActivated)
         ########
+
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -119,18 +128,41 @@ class Ui_MainWindow(object):
         self.surnameLabel.setText(_translate("MainWindow", "Surname"))
         self.notesLabel.setText(_translate("MainWindow", "Notes"))
         self.saveNotesButton.setText(_translate("MainWindow", "Save notes"))
+        self.populateButton.setText(_translate("MainWindow", "Populate"))
+        self.selectButton.setText(_translate("MainWindow", "Select"))
+
+    def comboBoxActivated(self):
+        current_user = self.comboBox.currentText()
+        contact_from_database = db.retrieveContact(current_user)
+        print (contact_from_database)
+        for row in contact_from_database:
+            self.nameLineEdit.setText(row[1])
+            self.surnameLineEdit.setText(row[2])
+            self.phoneLineEdit.setText(row[3])
+            self.addressLineEdit.setText(row[4])
+            self.emailLineEdit.setText(row[5])
+            self.textEdit.setText(row[6])
+
 
     def saveButtonClicked(self):
         db.addRecordInDatabase(self.nameLineEdit.text(),self.surnameLineEdit.text(),self.phoneLineEdit.text(),self.addressLineEdit.text(),self.emailLineEdit.text(),self.textEdit.toPlainText())
         db.randomizeNumber()
-   
-    def updateComboBox(self):
+        self.comboBox.clear()
         records = db.getDatabase()
         for row in records:
             self.comboBox.addItem(row[1])
 
-    updateComboBox        
+    def populateButtonClicked(self):
+        self.comboBox.clear()
+        records = db.getDatabase()
+        for row in records:
+            self.comboBox.addItem(row[1])
 
+    def selectButtonClicked(self):
+        current_user = self.comboBox.currentIndex()
+        print(current_user)
+    #xxx = self.comboBox.currentIndex()
+    #print(xxx)
 if __name__ == "__main__":
 
     import sys
@@ -143,5 +175,6 @@ if __name__ == "__main__":
     db = Database()
     db.createDatabase()
     db.randomizeNumber()
+
 
     sys.exit(app.exec_())

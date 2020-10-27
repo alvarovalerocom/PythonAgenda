@@ -68,6 +68,40 @@ class Database():
         
         data_tuple = (id_number)
         delete_string = """DELETE FROM contacts WHERE id_number=?"""
-        print("successfully deleted %s" % (id_number)) 
+        print("successfully deleted %s" % (id_number))
+    
+    def retrieveIdNumber(self,name):
+        connection = sqlite3.connect("agenda.db")
+        cursor = connection.cursor()
+        data_tuple = [name]
+        retrieve_string = """SELECT * FROM contacts WHERE name=?"""
+        cursor.execute(retrieve_string,data_tuple)
+        records = cursor.fetchall()
+        return records
+        connection.close()
+
+    def retrieveName(self,id_number):
+        connection = sqlite3.connect("agenda.db")
+        cursor = connection.cursor()
+        data_tuple = [id_number]
+        retrieve_string = """SELECT * FROM contacts WHERE id_number=?"""
+        cursor.execute(retrieve_string,data_tuple)
+        records = cursor.fetchall()
+        return records
+        connection.close()
+
+    def retrieveContact(self,name):
+        connection = sqlite3.connect("agenda.db")
+        cursor = connection.cursor()
+        data_tuple = [name]
+        retrieve_string = """SELECT * FROM contacts WHERE name=?"""
+        cursor.execute(retrieve_string,data_tuple)
+        records = cursor.fetchall()
+        return records
+        connection.close()
+
+
+
+
 
 
