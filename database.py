@@ -66,10 +66,14 @@ class Database():
         connection = sqlite3.connect("agenda.db")
         cursor = connection.cursor()
         
-        data_tuple = (id_number)
+        data_tuple = [id_number]
         delete_string = """DELETE FROM contacts WHERE id_number=?"""
+        cursor.execute(delete_string, data_tuple)
+
         print("successfully deleted %s" % (id_number))
-    
+        connection.commit()
+        connection.close()
+
     def retrieveIdNumber(self,name):
         connection = sqlite3.connect("agenda.db")
         cursor = connection.cursor()
