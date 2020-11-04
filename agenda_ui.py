@@ -110,6 +110,7 @@ class Ui_MainWindow(object):
         self.populateButton.clicked.connect(self.populateButtonClicked)
         self.selectButton.clicked.connect(self.selectButtonClicked)
         self.comboBox.activated.connect(self.comboBoxActivated)
+        self.deleteButton.clicked.connect(self.deleteButtonClicked)
         ########
 
         self.retranslateUi(MainWindow)
@@ -161,6 +162,18 @@ class Ui_MainWindow(object):
     def selectButtonClicked(self):
         current_user = self.comboBox.currentIndex()
         print(current_user)
+
+    def deleteButtonClicked(self):
+        if len(self.nameLineEdit.text()):
+            db.deleteRecordInDatabase(self.nameLineEdit.text())
+            self.comboBox.clear()
+            records = db.getDatabase()
+            for row in records:
+                self.comboBox.addItem(row[1]) 
+        else:
+            print("Nothing here")
+            print(self.nameLineEdit.text())
+
     #xxx = self.comboBox.currentIndex()
     #print(xxx)
 if __name__ == "__main__":

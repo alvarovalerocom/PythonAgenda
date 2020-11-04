@@ -62,15 +62,28 @@ class Database():
         connection.commit()
         connection.close()
 
-    def deleteRecordInDatabase(self,id_number):
+#    def deleteRecordInDatabase(self,id_number):
+ #       connection = sqlite3.connect("agenda.db")
+  #      cursor = connection.cursor()
+   #     
+    #    data_tuple = [id_number]
+     #   delete_string = """DELETE FROM contacts WHERE id_number=?"""
+      #  cursor.execute(delete_string, data_tuple)
+#
+ #       print("successfully deleted %s" % (id_number))
+  ##      connection.commit()
+    #    connection.close()
+
+#workaround that sucks.
+    def deleteRecordInDatabase(self,name):
         connection = sqlite3.connect("agenda.db")
         cursor = connection.cursor()
         
-        data_tuple = [id_number]
-        delete_string = """DELETE FROM contacts WHERE id_number=?"""
+        data_tuple = [name]
+        delete_string = """DELETE FROM contacts WHERE name=?"""
         cursor.execute(delete_string, data_tuple)
 
-        print("successfully deleted %s" % (id_number))
+        print("successfully deleted %s" % (name))
         connection.commit()
         connection.close()
 
