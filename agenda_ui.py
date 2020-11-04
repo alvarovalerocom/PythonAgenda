@@ -146,12 +146,19 @@ class Ui_MainWindow(object):
 
 
     def saveButtonClicked(self):
-        db.addRecordInDatabase(self.nameLineEdit.text(),self.surnameLineEdit.text(),self.phoneLineEdit.text(),self.addressLineEdit.text(),self.emailLineEdit.text(),self.textEdit.toPlainText())
-        db.randomizeNumber()
-        self.comboBox.clear()
-        records = db.getDatabase()
-        for row in records:
-            self.comboBox.addItem(row[1])
+        nameLineEditLength = len(self.nameLineEdit.text())
+        if nameLineEditLength >= 3:
+            db.addRecordInDatabase(self.nameLineEdit.text(),self.surnameLineEdit.text(),self.phoneLineEdit.text(),self.addressLineEdit.text(),self.emailLineEdit.text(),self.textEdit.toPlainText())
+            db.randomizeNumber()
+            self.comboBox.clear()
+            records = db.getDatabase()
+            for row in records:
+                self.comboBox.addItem(row[1])
+
+        else:
+            print("Name must be 3 characters or longer")
+
+
 
     def populateButtonClicked(self):
         self.comboBox.clear()
